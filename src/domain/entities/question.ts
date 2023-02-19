@@ -15,11 +15,11 @@ export class Question {
 
   getWinner (): Option | null {
     if (this.options.length === 1) return this.options[0]
-    const winnerNotExists = this.options.every(option => option.votes === this.options[0].votes)
+    const winnerNotExists = this.options.every(option => option.votes.length === this.options[0].votes.length)
     if (winnerNotExists) return null
     const sortedOptions = this.options.sort((previous, current) => {
-      if (previous.votes > current.votes) return 1
-      if (previous.votes < current.votes) return -1
+      if (previous.votes.length > current.votes.length) return 1
+      if (previous.votes.length < current.votes.length) return -1
       return 0
     })
     return sortedOptions.pop()!

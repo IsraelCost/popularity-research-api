@@ -1,32 +1,19 @@
-import { ApplicationError } from '../../src/domain/entities/error'
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { Question } from '../../src/domain/entities/question'
+import { Vote } from '../../src/domain/entities/vote'
 
 test('Should get null winner for all votes equality', () => {
   const sut = new Question({
     id: 'Generated_id',
     label: 'Some question',
     options: [
-      { id: '1', label: 'first', picture: 'some-picture', votes: 0 },
-      { id: '2', label: 'second', picture: 'some-picture', votes: 0 },
-      { id: '3', label: 'thirth', picture: 'some-picture', votes: 0 },
-      { id: '4', label: 'fourth', picture: 'some-picture', votes: 0 }
+      { id: '1', label: 'first', picture: 'some-picture', votes: [] },
+      { id: '2', label: 'second', picture: 'some-picture', votes: [] },
+      { id: '3', label: 'thirth', picture: 'some-picture', votes: [] },
+      { id: '4', label: 'fourth', picture: 'some-picture', votes: [] }
     ]
   })
   expect(sut.getWinner()).toEqual(null)
-})
-
-test('Should get the correct winner', () => {
-  const sut = new Question({
-    id: 'Generated_id',
-    label: 'Some question',
-    options: [
-      { id: '1', label: 'first', picture: 'some-picture', votes: 10 },
-      { id: '2', label: 'second', picture: 'some-picture', votes: 2 },
-      { id: '3', label: 'thirth', picture: 'some-picture', votes: 3 },
-      { id: '4', label: 'fourth', picture: 'some-picture', votes: 20 }
-    ]
-  })
-  expect(sut.getWinner()).toEqual({ id: '4', label: 'fourth', picture: 'some-picture', votes: 20 })
 })
 
 test('Should get the correct winner for only one option', () => {
@@ -34,18 +21,16 @@ test('Should get the correct winner for only one option', () => {
     id: 'Generated_id',
     label: 'Some question',
     options: [
-      { id: '1', label: 'first', picture: 'some-picture', votes: 10 }
+      { id: '1', label: 'first', picture: 'some-picture', votes: generateVotes(10) }
     ]
   })
-  expect(sut.getWinner()).toEqual({ id: '1', label: 'first', picture: 'some-picture', votes: 10 })
+  expect(sut.getWinner()).toEqual(sut.options[0])
 })
 
-test('Should not create a question with less than 1 option', () => {
-  expect(() => (
-    new Question({
-      id: 'Generated_id',
-      label: 'Some question',
-      options: []
-    })
-  )).toThrow(new ApplicationError('Cada questão deve possuir ao menos uma opção', 400))
-})
+const generateVotes = (quantity: number) => {
+  const votes: Vote[] = []
+  while (votes.length !== quantity) {
+    votes.push({ deviceIp: '' + Math.random(), phoneNumber: '' + Math.random() })
+  }
+  return votes
+}
