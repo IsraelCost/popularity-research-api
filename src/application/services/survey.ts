@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common'
+import { Award } from '../../domain/entities/award'
 import { ApplicationError } from '../../domain/entities/error'
 import { Question } from '../../domain/entities/question'
 import { Survey } from '../../domain/entities/survey'
@@ -34,6 +35,7 @@ export class SurveyService implements ISurveyService {
 
     return {
       id: survey.id,
+      award: survey.award,
       label: survey.label,
       questions: survey.questions.map(question => ({
         id: question.id,
@@ -49,9 +51,18 @@ export class SurveyService implements ISurveyService {
   }
 
   async create (input: SurveyServiceDTO.Create): Promise<Survey> {
+    const awardPicture = await this.fileSystem.save(FileSystemFolders.AWARD_PICTURES, input.award.id, input.award.picture)
+
+    const award: Award = {
+      id: input.award.picture,
+      name: input.award.name,
+      picture: awardPicture
+    }
+
     const survey = new Survey({
       id: this.idGenerator.generate(),
       label: input.label,
+      award,
       questions: []
     })
 
@@ -83,6 +94,18 @@ export class SurveyService implements ISurveyService {
     const survey = await this.surveyRepository.findById(id)
 
     if (!survey) throw new ApplicationError('Enquete não encontrada', 404)
+
+    if (input.award) {
+      const awardPicture = await this.fileSystem.save(FileSystemFolders.AWARD_PICTURES, input.award.id, input.award.picture)
+
+      const award: Award = {
+        id: input.award.picture,
+        name: input.award.name,
+        picture: awardPicture
+      }
+
+      survey.award = award
+    }
 
     if (input.questions) {
       const questions = []

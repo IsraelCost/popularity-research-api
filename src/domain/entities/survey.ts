@@ -1,8 +1,10 @@
+import { Award } from './award'
 import { Question } from './question'
 
 export class Survey {
   id: string
   label: string
+  award: Award
   questions: Question[]
 
   constructor (
@@ -11,6 +13,7 @@ export class Survey {
     this.id = data.id
     this.label = data.label
     this.questions = data.questions
+    this.award = data.award
   }
 
   getQuestion (id: string): Question | null {

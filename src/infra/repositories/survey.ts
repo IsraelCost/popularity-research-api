@@ -10,6 +10,7 @@ export class SurveyRepository implements ISurveyRepository {
     return new Survey({
       id: data.id,
       label: data.label,
+      award: data.award,
       questions: data.questions.map((question: any) => new Question({
         id: question.id,
         label: question.label,

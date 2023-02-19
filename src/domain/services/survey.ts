@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/array-type */
+import { Award } from '../entities/award'
 import { Survey } from '../entities/survey'
 import { Vote } from '../entities/vote'
 
@@ -14,6 +15,7 @@ export interface ISurveyService {
 export namespace SurveyServiceDTO {
   export type Create = {
     label: string
+    award: Award
     questions: {
       id: string
       label: string
@@ -28,6 +30,7 @@ export namespace SurveyServiceDTO {
 
   export type Update = {
     label?: string
+    award?: Award
     questions?: {
       id: string
       label: string
@@ -43,6 +46,7 @@ export namespace SurveyServiceDTO {
   export type Safe = {
     id: string
     label: string
+    award: Award
     questions: {
       id: string
       label: string

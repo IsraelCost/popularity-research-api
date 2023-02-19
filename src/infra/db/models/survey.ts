@@ -6,6 +6,10 @@ const SurveySchema = new Schema({
     required: true,
     unique: true
   },
+  award: {
+    type: Object,
+    required: true
+  },
   label: {
     type: String,
     required: true

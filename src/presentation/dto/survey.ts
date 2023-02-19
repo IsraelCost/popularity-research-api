@@ -1,6 +1,17 @@
 /* eslint-disable @typescript-eslint/indent */
 import { ApiProperty } from '@nestjs/swagger'
 
+export class AwardDTO {
+  @ApiProperty()
+  id!: string
+
+  @ApiProperty()
+  name!: string
+
+  @ApiProperty()
+  picture!: string
+}
+
 export class VoteDTO {
   @ApiProperty()
   deviceIp!: string
@@ -41,6 +52,9 @@ export class SurveyDTO {
   @ApiProperty()
   label!: string
 
+  @ApiProperty({ type: AwardDTO })
+  award!: AwardDTO
+
   @ApiProperty({ type: QuestionDTO, isArray: true })
   questions!: QuestionDTO[]
 }
@@ -77,6 +91,9 @@ export class SafeSurveyDTO {
   @ApiProperty()
   label!: string
 
+  @ApiProperty({ type: AwardDTO })
+  award!: AwardDTO
+
   @ApiProperty({ type: SafeQuestionDTO, isArray: true })
   questions!: SafeQuestionDTO[]
 }
@@ -85,6 +102,9 @@ export class SurveyCreateDTO {
   @ApiProperty()
   label!: string
 
+  @ApiProperty({ type: AwardDTO })
+  award!: AwardDTO
+
   @ApiProperty({ type: QuestionDTO, isArray: true })
   questions!: QuestionDTO[]
 }
@@ -92,6 +112,9 @@ export class SurveyCreateDTO {
 export class SurveyUpdateDTO {
   @ApiProperty()
   label?: string
+
+  @ApiProperty({ type: AwardDTO })
+  award?: AwardDTO
 
   @ApiProperty({ type: QuestionDTO, isArray: true })
   questions?: QuestionDTO[]

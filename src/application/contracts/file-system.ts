@@ -3,5 +3,6 @@ export interface IFileSystem {
 }
 
 export enum FileSystemFolders {
-  OPTIONS_PICTURES = 'survey.options.pictures'
+  OPTIONS_PICTURES = 'survey.options.pictures',
+  AWARD_PICTURES = 'survey.award.pictures',
 }

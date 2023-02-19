@@ -39,6 +39,7 @@ export class SurveySecureService implements ISurveyService {
 
     const attributesValidation = [
       new RequiredFieldValidation('label', 'título'),
+      new RequiredFieldValidation('award', 'prêmio'),
       new RequiredFieldValidation('questions', 'questões')
     ]
 
