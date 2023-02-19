@@ -1,0 +1,43 @@
+import { SurveySecureService } from '../application/secure/survey'
+import { SurveyService } from '../application/services/survey'
+import { Authentication } from '../application/usecases/authentication'
+import { CreateUser } from '../application/usecases/create-user'
+import { VerificateEmail } from '../application/usecases/verificate-email'
+import { Voting } from '../application/usecases/voting'
+import { AuthenticationValidation } from '../application/validation/authentication'
+import { CreateUserValidation } from '../application/validation/create-user'
+import { VotingValidation } from '../application/validation/voting'
+import { Hasher } from '../infra/cryptograph/hasher'
+import { S3 } from '../infra/file-system/s3'
+import { Mailer } from '../infra/mail/mailer'
+import { SurveyRepository } from '../infra/repositories/survey'
+import { TicketRepository } from '../infra/repositories/ticket'
+import { UserRepository } from '../infra/repositories/user'
+import { Jwt } from '../infra/security/jwt'
+import { SessionManager } from '../infra/security/session-getter'
+import { Store } from '../infra/storage/store'
+import { IdGenerator } from '../infra/utils/id-generator'
+import { SocketIoAdapter } from '../infra/websocket/socketio'
+
+export const providers = [
+  { provide: 'CreateUser', useClass: CreateUser },
+  { provide: 'Authentication', useClass: Authentication },
+  { provide: 'VerificateEmail', useClass: VerificateEmail },
+  { provide: 'UserRepository', useClass: UserRepository },
+  { provide: 'Hasher', useClass: Hasher },
+  { provide: 'Jwt', useClass: Jwt },
+  { provide: 'IdGenerator', useClass: IdGenerator },
+  { provide: 'Mailer', useClass: Mailer },
+  { provide: 'TicketRepository', useClass: TicketRepository },
+  { provide: 'CreateUserValidation', useClass: CreateUserValidation },
+  { provide: 'AuthenticationValidation', useClass: AuthenticationValidation },
+  { provide: 'Storage', useClass: Store },
+  { provide: 'SessionManager', useClass: SessionManager },
+  { provide: 'SurveyRepository', useClass: SurveyRepository },
+  { provide: 'FileSystem', useClass: S3 },
+  { provide: 'VotingValidation', useClass: VotingValidation },
+  { provide: 'Voting', useClass: Voting },
+  { provide: 'SurveySecureService', useClass: SurveySecureService },
+  { provide: 'SurveyService', useClass: SurveyService },
+  { provide: 'Websocket', useClass: SocketIoAdapter }
+]
