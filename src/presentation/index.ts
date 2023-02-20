@@ -11,6 +11,7 @@ import { ErrorHandler } from './middlewares/error-handler'
 import { SurveyController } from './controllers/survey'
 import { AuthMiddleware } from './middlewares/authentication'
 import { IWebSocket } from '../application/contracts/websocket'
+import { NotFound } from './middlewares/not-found'
 
 @Module({
   controllers: [AuthController, SurveyController],
@@ -33,7 +34,7 @@ const bootstrap = async () => {
   await connect()
   const app = await NestFactory.create(AppModule)
   app.use(express.json({ limit: '50mb' }))
-  app.useGlobalFilters(new ErrorHandler())
+  app.useGlobalFilters(new ErrorHandler(), new NotFound())
   app.enableCors({
     origin: '*'
   })
