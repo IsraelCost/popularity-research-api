@@ -41,7 +41,7 @@ export class CreateUser implements ICreateUser {
       userId: user.id
     }
     await this.ticketRepository.save(ticket)
-    await this.sendMail(user, ticket)
+    // await this.sendMail(user, ticket)
     const createdUser = await this.userRepository.save(user)
     return {
       id: createdUser.id,
