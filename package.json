@@ -9,7 +9,7 @@
     "tsoa": "tsoa spec-and-routes",
     "test": "jest --watchAll --runInBand",
     "test:ci": "jest --detectOpenHandles --forceExit",
-    "build": "yarn tsc && cp -r ./src/infra/mail/templates/ ./dist/src/infra/mail"
+    "build": "yarn tsc"
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",
