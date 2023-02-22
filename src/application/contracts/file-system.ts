@@ -5,4 +5,5 @@ export interface IFileSystem {
 export enum FileSystemFolders {
   OPTIONS_PICTURES = 'survey.options.pictures',
   AWARD_PICTURES = 'survey.award.pictures',
+  CITY_PICTURES = 'city.pictures'
 }

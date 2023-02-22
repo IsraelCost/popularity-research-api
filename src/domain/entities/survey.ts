@@ -6,6 +6,7 @@ export class Survey {
   label: string
   award: Award
   questions: Question[]
+  cityId?: string
 
   constructor (
     data: Omit<Survey, 'addQuestion' | 'getQuestion' | 'removeQuestion'>
@@ -14,6 +15,9 @@ export class Survey {
     this.label = data.label
     this.questions = data.questions
     this.award = data.award
+    if (data.cityId) {
+      this.cityId = data.cityId
+    }
   }
 
   getQuestion (id: string): Question | null {

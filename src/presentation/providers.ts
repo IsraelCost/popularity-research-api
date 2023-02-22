@@ -1,4 +1,6 @@
+import { CitySecureService } from '../application/secure/city'
 import { SurveySecureService } from '../application/secure/survey'
+import { CityService } from '../application/services/city'
 import { SurveyService } from '../application/services/survey'
 import { Authentication } from '../application/usecases/authentication'
 import { CreateUser } from '../application/usecases/create-user'
@@ -10,6 +12,7 @@ import { VotingValidation } from '../application/validation/voting'
 import { Hasher } from '../infra/cryptograph/hasher'
 import { S3 } from '../infra/file-system/s3'
 import { Mailer } from '../infra/mail/mailer'
+import { CityRepository } from '../infra/repositories/city'
 import { SurveyRepository } from '../infra/repositories/survey'
 import { TicketRepository } from '../infra/repositories/ticket'
 import { UserRepository } from '../infra/repositories/user'
@@ -39,5 +42,8 @@ export const providers = [
   { provide: 'Voting', useClass: Voting },
   { provide: 'SurveySecureService', useClass: SurveySecureService },
   { provide: 'SurveyService', useClass: SurveyService },
-  { provide: 'Websocket', useClass: SocketIoAdapter }
+  { provide: 'Websocket', useClass: SocketIoAdapter },
+  { provide: 'CitySecureService', useClass: CitySecureService },
+  { provide: 'CityService', useClass: CityService },
+  { provide: 'CityRepository', useClass: CityRepository }
 ]

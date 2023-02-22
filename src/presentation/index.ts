@@ -12,9 +12,10 @@ import { SurveyController } from './controllers/survey'
 import { AuthMiddleware } from './middlewares/authentication'
 import { IWebSocket } from '../application/contracts/websocket'
 import { NotFound } from './middlewares/not-found'
+import { CityController } from './controllers/city'
 
 @Module({
-  controllers: [AuthController, SurveyController],
+  controllers: [AuthController, SurveyController, CityController],
   providers
 })
 class AppModule {
@@ -23,7 +24,9 @@ class AppModule {
       .apply(AuthMiddleware)
       .exclude(
         { path: '/survey/:id', method: RequestMethod.GET },
-        { path: '/survey/:id/question/vote', method: RequestMethod.POST }
+        { path: '/survey/:id/question/vote', method: RequestMethod.POST },
+        { path: '/city', method: RequestMethod.GET },
+        { path: '/city/:id', method: RequestMethod.GET }
       )
       .forRoutes(SurveyController)
   }

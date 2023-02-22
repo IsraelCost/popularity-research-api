@@ -26,6 +26,7 @@ export namespace SurveyServiceDTO {
         votes: Vote[]
       }[]
     }[]
+    cityId?: string
   }
 
   export type Update = {
@@ -41,6 +42,7 @@ export namespace SurveyServiceDTO {
         votes: Vote[]
       }[]
     }[]
+    cityId?: string
   }
 
   export type Safe = {
@@ -57,5 +59,6 @@ export namespace SurveyServiceDTO {
         votes: number
       }[]
     }[]
+    cityId?: string
   }
 }

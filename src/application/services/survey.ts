@@ -3,6 +3,7 @@ import { Award } from '../../domain/entities/award'
 import { ApplicationError } from '../../domain/entities/error'
 import { Question } from '../../domain/entities/question'
 import { Survey } from '../../domain/entities/survey'
+import { ICityRepository } from '../../domain/repositories/city'
 import { ISurveyRepository } from '../../domain/repositories/survey'
 import { ISurveyService, SurveyServiceDTO } from '../../domain/services/survey'
 import { FileSystemFolders, IFileSystem } from '../contracts/file-system'
@@ -15,7 +16,8 @@ export class SurveyService implements ISurveyService {
     @Inject('SurveyRepository') private readonly surveyRepository: ISurveyRepository,
     @Inject('IdGenerator') private readonly idGenerator: IIdGenerator,
     @Inject('FileSystem') private readonly fileSystem: IFileSystem,
-    @Inject('Websocket') private readonly websocket: IWebSocket
+    @Inject('Websocket') private readonly websocket: IWebSocket,
+    @Inject('CityRepository') private readonly cityRepository: ICityRepository
   ) { }
 
   async get (): Promise<Survey[]> {
@@ -46,11 +48,17 @@ export class SurveyService implements ISurveyService {
           picture: option.picture,
           votes: option.votes.length
         }))
-      }))
+      })),
+      cityId: survey.cityId
     }
   }
 
   async create (input: SurveyServiceDTO.Create): Promise<Survey> {
+    if (input.cityId) {
+      const city = await this.cityRepository.findOne(input.cityId)
+      if (!city) throw new ApplicationError('Cidade não encontrada', 404)
+    }
+
     const awardPicture = await this.fileSystem.save(FileSystemFolders.AWARD_PICTURES, input.award.id, input.award.picture)
 
     const award: Award = {
@@ -63,7 +71,8 @@ export class SurveyService implements ISurveyService {
       id: this.idGenerator.generate(),
       label: input.label,
       award,
-      questions: []
+      questions: [],
+      cityId: input.cityId
     })
 
     for (const questionData of input.questions) {
@@ -94,6 +103,14 @@ export class SurveyService implements ISurveyService {
     const survey = await this.surveyRepository.findById(id)
 
     if (!survey) throw new ApplicationError('Enquete não encontrada', 404)
+
+    if (input.cityId) {
+      const city = await this.cityRepository.findOne(input.cityId)
+
+      if (!city) throw new ApplicationError('Cidade não encontrada', 404)
+
+      survey.cityId = input.cityId
+    }
 
     if (input.award) {
       const awardPicture = await this.fileSystem.save(FileSystemFolders.AWARD_PICTURES, input.award.id, input.award.picture)
