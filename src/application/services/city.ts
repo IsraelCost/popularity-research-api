@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common'
 import { City } from '../../domain/entities/city'
 import { ApplicationError } from '../../domain/entities/error'
 import { ICityRepository } from '../../domain/repositories/city'
+import { ISurveyRepository } from '../../domain/repositories/survey'
 import { CityServiceDTO, ICityService } from '../../domain/services/city'
 import { FileSystemFolders, IFileSystem } from '../contracts/file-system'
 import { IIdGenerator } from '../contracts/id-generator'
@@ -10,6 +11,7 @@ import { IIdGenerator } from '../contracts/id-generator'
 export class CityService implements ICityService {
   constructor (
     @Inject('CityRepository') private readonly cityRepository: ICityRepository,
+    @Inject('SurveyRepository') private readonly surveyRepository: ISurveyRepository,
     @Inject('FileSystem') private readonly fileSystem: IFileSystem,
     @Inject('IdGenerator') private readonly idGenerator: IIdGenerator
   ) { }
@@ -60,6 +62,14 @@ export class CityService implements ICityService {
     const city = await this.cityRepository.findOne(id)
 
     if (!city) throw new ApplicationError('Cidade não encontrada', 404)
+
+    const surveysWithThisCity = await this.surveyRepository.findByCity(city.id)
+
+    for (const survey of surveysWithThisCity) {
+      survey.cityId = ''
+
+      await this.surveyRepository.edit(survey.id, survey)
+    }
 
     await this.cityRepository.remove(city.id)
   }
