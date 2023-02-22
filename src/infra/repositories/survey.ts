@@ -15,12 +15,18 @@ export class SurveyRepository implements ISurveyRepository {
         id: question.id,
         label: question.label,
         options: question.options
-      }))
+      })),
+      cityId: data.cityId
     })
   }
 
   async findAll (): Promise<Survey[]> {
     const surveysData = await SurveyMongoDBModel.find()
+    return surveysData.map(this.toModel)
+  }
+
+  async findByCity (cityId: string): Promise<Survey[]> {
+    const surveysData = await SurveyMongoDBModel.find({ cityId })
     return surveysData.map(this.toModel)
   }
 

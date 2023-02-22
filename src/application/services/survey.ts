@@ -54,11 +54,6 @@ export class SurveyService implements ISurveyService {
   }
 
   async create (input: SurveyServiceDTO.Create): Promise<Survey> {
-    if (input.cityId) {
-      const city = await this.cityRepository.findOne(input.cityId)
-      if (!city) throw new ApplicationError('Cidade não encontrada', 404)
-    }
-
     const awardPicture = await this.fileSystem.save(FileSystemFolders.AWARD_PICTURES, input.award.id, input.award.picture)
 
     const award: Award = {
@@ -104,12 +99,10 @@ export class SurveyService implements ISurveyService {
 
     if (!survey) throw new ApplicationError('Enquete não encontrada', 404)
 
-    if (input.cityId) {
+    if (input.cityId !== undefined) {
       const city = await this.cityRepository.findOne(input.cityId)
 
-      if (!city) throw new ApplicationError('Cidade não encontrada', 404)
-
-      survey.cityId = input.cityId
+      survey.cityId = city ? input.cityId : ''
     }
 
     if (input.award) {

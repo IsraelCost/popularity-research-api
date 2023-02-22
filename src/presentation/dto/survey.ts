@@ -57,6 +57,9 @@ export class SurveyDTO {
 
   @ApiProperty({ type: QuestionDTO, isArray: true })
   questions!: QuestionDTO[]
+
+  @ApiProperty()
+  cityId?: string
 }
 
 export class SafeOptionDTO {
@@ -96,6 +99,9 @@ export class SafeSurveyDTO {
 
   @ApiProperty({ type: SafeQuestionDTO, isArray: true })
   questions!: SafeQuestionDTO[]
+
+  @ApiProperty()
+  cityId?: string
 }
 
 export class SurveyCreateDTO {
@@ -107,6 +113,9 @@ export class SurveyCreateDTO {
 
   @ApiProperty({ type: QuestionDTO, isArray: true })
   questions!: QuestionDTO[]
+
+  @ApiProperty()
+  cityId?: string
 }
 
 export class SurveyUpdateDTO {
@@ -118,6 +127,9 @@ export class SurveyUpdateDTO {
 
   @ApiProperty({ type: QuestionDTO, isArray: true })
   questions?: QuestionDTO[]
+
+  @ApiProperty()
+  cityId?: string
 }
 
 export class VotingDTO {

@@ -18,6 +18,9 @@ const SurveySchema = new Schema({
     type: Array,
     required: true,
     default: []
+  },
+  cityId: {
+    type: String
   }
 })
 
