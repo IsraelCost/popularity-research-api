@@ -24,7 +24,7 @@ class AppModule {
       .apply(AuthMiddleware)
       .exclude(
         { path: '/survey/:id', method: RequestMethod.GET },
-        { path: '/survey/:id/question/vote', method: RequestMethod.POST },
+        { path: '/survey/:id/question/:questionId/option/:optionId/vote', method: RequestMethod.POST },
         { path: '/city', method: RequestMethod.GET },
         { path: '/city/:id', method: RequestMethod.GET }
       )
