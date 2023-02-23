@@ -67,7 +67,8 @@ export class SurveyService implements ISurveyService {
       label: input.label,
       award,
       questions: [],
-      cityId: input.cityId
+      cityId: input.cityId,
+      term: input.term
     })
 
     for (const questionData of input.questions) {
@@ -145,6 +146,7 @@ export class SurveyService implements ISurveyService {
     }
 
     survey.label = input.label || survey.label
+    survey.term = input.term || survey.term
 
     this.websocket.emitToAll('vote', survey.id)
 

@@ -27,6 +27,7 @@ export namespace SurveyServiceDTO {
       }[]
     }[]
     cityId?: string
+    term?: string
   }
 
   export type Update = {
@@ -43,6 +44,7 @@ export namespace SurveyServiceDTO {
       }[]
     }[]
     cityId?: string
+    term?: string
   }
 
   export type Safe = {
@@ -60,5 +62,6 @@ export namespace SurveyServiceDTO {
       }[]
     }[]
     cityId?: string
+    term?: string
   }
 }

@@ -60,6 +60,9 @@ export class SurveyDTO {
 
   @ApiProperty()
   cityId?: string
+
+  @ApiProperty()
+  term?: string
 }
 
 export class SafeOptionDTO {
@@ -102,6 +105,9 @@ export class SafeSurveyDTO {
 
   @ApiProperty()
   cityId?: string
+
+  @ApiProperty()
+  term?: string
 }
 
 export class SurveyCreateDTO {
@@ -116,6 +122,9 @@ export class SurveyCreateDTO {
 
   @ApiProperty()
   cityId?: string
+
+  @ApiProperty()
+  term?: string
 }
 
 export class SurveyUpdateDTO {
@@ -130,6 +139,9 @@ export class SurveyUpdateDTO {
 
   @ApiProperty()
   cityId?: string
+
+  @ApiProperty()
+  term?: string
 }
 
 export class VotingDTO {

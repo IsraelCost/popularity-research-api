@@ -16,7 +16,8 @@ export class SurveyRepository implements ISurveyRepository {
         label: question.label,
         options: question.options
       })),
-      cityId: data.cityId
+      cityId: data.cityId,
+      term: data.term
     })
   }
 

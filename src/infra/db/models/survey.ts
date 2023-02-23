@@ -21,6 +21,9 @@ const SurveySchema = new Schema({
   },
   cityId: {
     type: String
+  },
+  term: {
+    type: String
   }
 })
 
