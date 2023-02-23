@@ -6,15 +6,14 @@ import { Survey } from '../../domain/entities/survey'
 import { ICityRepository } from '../../domain/repositories/city'
 import { ISurveyRepository } from '../../domain/repositories/survey'
 import { ISurveyService, SurveyServiceDTO } from '../../domain/services/survey'
+import { generateId } from '../../domain/utils/generate-id'
 import { FileSystemFolders, IFileSystem } from '../contracts/file-system'
-import { IIdGenerator } from '../contracts/id-generator'
 import { IWebSocket } from '../contracts/websocket'
 
 @Injectable()
 export class SurveyService implements ISurveyService {
   constructor (
     @Inject('SurveyRepository') private readonly surveyRepository: ISurveyRepository,
-    @Inject('IdGenerator') private readonly idGenerator: IIdGenerator,
     @Inject('FileSystem') private readonly fileSystem: IFileSystem,
     @Inject('Websocket') private readonly websocket: IWebSocket,
     @Inject('CityRepository') private readonly cityRepository: ICityRepository
@@ -63,8 +62,18 @@ export class SurveyService implements ISurveyService {
       picture: awardPicture
     }
 
+    let id
+
+    while (true) {
+      id = generateId()
+
+      if (!(await this.surveyRepository.findById(id))) {
+        break
+      }
+    }
+
     const survey = new Survey({
-      id: this.idGenerator.generate(),
+      id,
       label: input.label,
       award,
       questions: [],
