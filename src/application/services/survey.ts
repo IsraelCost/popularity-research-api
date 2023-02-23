@@ -49,7 +49,8 @@ export class SurveyService implements ISurveyService {
           votes: option.votes.length
         }))
       })),
-      cityId: survey.cityId
+      cityId: survey.cityId,
+      term: survey.term
     }
   }
 
