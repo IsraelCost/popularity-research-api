@@ -151,3 +151,16 @@ export class VotingDTO {
   @ApiProperty()
   phoneNumber!: string
 }
+
+export class ManageVotesOptionsDTO {
+  @ApiProperty()
+  optionId!: string
+
+  @ApiProperty()
+  percentage!: number
+}
+
+export class ManageVotesDTO {
+  @ApiProperty({ type: ManageVotesOptionsDTO, isArray: true })
+  options!: ManageVotesOptionsDTO[]
+}

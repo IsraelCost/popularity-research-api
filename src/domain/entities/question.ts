@@ -7,7 +7,7 @@ export class Question {
   label: string
   options: Option[]
 
-  constructor (data: Omit<Question, 'getWinner' | 'getOption' | 'addOption' | 'removeOption' | 'vote'>) {
+  constructor (data: Omit<Question, 'getWinner' | 'getOption' | 'addOption' | 'removeOption' | 'vote' | 'isAValidPercentage'>) {
     this.id = data.id
     this.label = data.label
     this.options = data.options
@@ -49,5 +49,13 @@ export class Question {
     const phoneVoted = this.options.map(option => option.votes).flat().find(vote => vote.phoneNumber === data.phoneNumber)
     if (phoneVoted) throw new ApplicationError('Cada usuário pode votar uma única vez em cada questão', 400)
     option.votes.push(data)
+  }
+
+  isAValidPercentage (percentage: number) {
+    const allVotes = this.options.map(option => option.votes).flat()
+    console.log(allVotes)
+    const sumOfVotes = allVotes.length
+    const multiple = 100 / sumOfVotes
+    return percentage % multiple === 0
   }
 }

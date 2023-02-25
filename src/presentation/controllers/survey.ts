@@ -1,15 +1,17 @@
 import { Controller, Inject, Post, Patch, Delete, Get, Body, Param } from '@nestjs/common'
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ISurveyService } from '../../domain/services/survey'
+import { IManageVotes } from '../../domain/usecases/manage-votes'
 import { IVoting } from '../../domain/usecases/voting'
-import { SafeSurveyDTO, SurveyCreateDTO, SurveyDTO, SurveyUpdateDTO, VotingDTO } from '../dto/survey'
+import { ManageVotesDTO, SafeSurveyDTO, SurveyCreateDTO, SurveyDTO, SurveyUpdateDTO, VotingDTO } from '../dto/survey'
 
 @ApiTags('survey')
 @Controller('survey')
 export class SurveyController {
   constructor (
     @Inject('SurveySecureService') private readonly service: ISurveyService,
-    @Inject('Voting') private readonly voting: IVoting
+    @Inject('Voting') private readonly votingUseCase: IVoting,
+    @Inject('ManageVotes') private readonly manageVotesUseCase: IManageVotes
   ) { }
 
   @Get()
@@ -74,6 +76,23 @@ export class SurveyController {
     await this.service.delete(id)
   }
 
+  @Post(':id/question/:questionId/manage-votes')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200
+  })
+  async manageVotes (
+  @Param('id') surveyId: string,
+    @Param('questionId') questionId: string,
+    @Body() input: ManageVotesDTO
+  ) {
+    await this.manageVotesUseCase.manage({
+      surveyId,
+      questionId,
+      ...input
+    })
+  }
+
   @Post(':id/question/:questionId/option/:optionId/vote')
   @ApiResponse({
     status: 200
@@ -84,7 +103,7 @@ export class SurveyController {
     @Param('optionId') optionId: string,
     @Body() input: VotingDTO
   ) {
-    await this.voting.vote({
+    await this.votingUseCase.vote({
       surveyId,
       questionId,
       optionId,

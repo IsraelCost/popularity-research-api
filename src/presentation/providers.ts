@@ -4,10 +4,12 @@ import { CityService } from '../application/services/city'
 import { SurveyService } from '../application/services/survey'
 import { Authentication } from '../application/usecases/authentication'
 import { CreateUser } from '../application/usecases/create-user'
+import { ManageVotes } from '../application/usecases/manage-votes'
 import { VerificateEmail } from '../application/usecases/verificate-email'
 import { Voting } from '../application/usecases/voting'
 import { AuthenticationValidation } from '../application/validation/authentication'
 import { CreateUserValidation } from '../application/validation/create-user'
+import { ManageVotesValidation } from '../application/validation/manage-votes'
 import { VotingValidation } from '../application/validation/voting'
 import { Hasher } from '../infra/cryptograph/hasher'
 import { S3 } from '../infra/file-system/s3'
@@ -45,5 +47,7 @@ export const providers = [
   { provide: 'Websocket', useClass: SocketIoAdapter },
   { provide: 'CitySecureService', useClass: CitySecureService },
   { provide: 'CityService', useClass: CityService },
-  { provide: 'CityRepository', useClass: CityRepository }
+  { provide: 'CityRepository', useClass: CityRepository },
+  { provide: 'ManageVotes', useClass: ManageVotes },
+  { provide: 'ManageVotesValidation', useClass: ManageVotesValidation }
 ]

@@ -27,6 +27,23 @@ test('Should get the correct winner for only one option', () => {
   expect(sut.getWinner()).toEqual(sut.options[0])
 })
 
+test('Should verificate if is a valid percentage', () => {
+  const sut = new Question({
+    id: 'Generated_id',
+    label: 'Some question',
+    options: [
+      { id: '1', label: 'first', picture: 'some-picture', votes: generateVotes(0) },
+      { id: '2', label: 'second', picture: 'some-picture', votes: generateVotes(1) },
+      { id: '3', label: 'thirth', picture: 'some-picture', votes: generateVotes(2) },
+      { id: '4', label: 'fourth', picture: 'some-picture', votes: generateVotes(1) }
+    ]
+  })
+  expect(sut.isAValidPercentage(70)).toEqual(false)
+  expect(sut.isAValidPercentage(50)).toEqual(true)
+  expect(sut.isAValidPercentage(25)).toEqual(true)
+  expect(sut.isAValidPercentage(90)).toEqual(false)
+})
+
 const generateVotes = (quantity: number) => {
   const votes: Vote[] = []
   while (votes.length !== quantity) {
